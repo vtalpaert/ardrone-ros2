@@ -15,12 +15,24 @@ using namespace std::chrono_literals;
 #include <signal.h>
 #include <errno.h>
 
+extern "C" {
 #include <libARSAL/ARSAL.h>
 #include <libARController/ARController.h>
 #include <libARDiscovery/ARDiscovery.h>
+}
 
 #define JS_IP_ADDRESS "192.168.2.1"
 #define JS_DISCOVERY_PORT 44444
+
+
+#define CHECK_ERROR(errorController) { \
+  if (errorController != ARCONTROLLER_OK) { \
+  ARSAL_PRINT(ARSAL_PRINT_ERROR, TAG, "- error :%s", ARCONTROLLER_Error_ToString(errorController)); \
+  printf("Fail at line %i\n", __LINE__); \
+  return false; \
+  } \
+  }
+
 
 class MinimalPublisher : public rclcpp::Node
 {

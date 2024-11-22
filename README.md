@@ -1,3 +1,8 @@
+# ARDRONE ROS2
+
+ROS2 nodes for JumpingSumo (and sample for Bebop)
+
+## Build
 
 ```bash
 source /opt/ros/humble/setup.bash

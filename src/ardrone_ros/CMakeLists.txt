@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 project(ardrone_ros)
 
-
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
-
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -18,18 +16,17 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(jumping_sumo src/jumping_sumo.cpp)
-ament_target_dependencies(jumping_sumo ardrone_sdk rclcpp std_msgs)
-FILE(GLOB SDK_LIBS /home/victor/workspace/ardrone_ros/install/ardrone_sdk/lib/*.so)
-message(STATUS SDK_LIBS=${SDK_LIBS})
-message(STATUS CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX})
+#get_cmake_property(_variableNames VARIABLES)
+#list (SORT _variableNames)
+#foreach (_variableName ${_variableNames})
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
 
-get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
-target_link_libraries(jumping_sumo INTERFACE ${SDK_LIBS})
+
+add_executable(jumping_sumo src/jumping_sumo.cpp)
+ament_target_dependencies(jumping_sumo rclcpp std_msgs ardrone_sdk)
+
+#target_link_libraries(jumping_sumo INTERFACE ${SDK_LIBS})
 
 install(TARGETS
   jumping_sumo
