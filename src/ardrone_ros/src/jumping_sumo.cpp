@@ -160,8 +160,8 @@ private:
                 codec.parameters.h264parameters.isMP4Compliant ? "Yes" : "No");
         }
         
-        if (codec.type == ARCONTROLLER_STREAM_CODEC_TYPE_UNKNOWN) {
-            RCLCPP_ERROR(node->get_logger(), "Unknown codec type received");
+        if (codec.type == ARCONTROLLER_STREAM_CODEC_TYPE_DEFAULT) {
+            RCLCPP_ERROR(node->get_logger(), "Invalid codec type received");
             return ARCONTROLLER_ERROR_STREAM;
         }
         return ARCONTROLLER_OK;
@@ -210,7 +210,7 @@ private:
 
                 // Convert OpenCV image to ROS message
                 auto cv_ptr = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", decoded_frame);
-                img_msg = cv_ptr.toImageMsg();
+                img_msg = std::make_unique<sensor_msgs::msg::Image>(*cv_ptr.toImageMsg());
                 img_msg->header.stamp = node->now();
                 img_msg->header.frame_id = "camera_frame";
             }
