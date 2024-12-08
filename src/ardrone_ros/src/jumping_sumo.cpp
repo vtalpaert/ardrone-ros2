@@ -6,6 +6,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/image.hpp"
+#include <opencv2/opencv.hpp>
+#include <cv_bridge/cv_bridge.h>
 
 extern "C" {
 #include <libARSAL/ARSAL.h>
@@ -158,6 +160,10 @@ private:
                 codec.parameters.h264parameters.isMP4Compliant ? "Yes" : "No");
         }
         
+        if (codec.type == ARCONTROLLER_STREAM_CODEC_TYPE_UNKNOWN) {
+            RCLCPP_ERROR(node->get_logger(), "Unknown codec type received");
+            return ARCONTROLLER_ERROR_STREAM;
+        }
         return ARCONTROLLER_OK;
     }
 
@@ -186,9 +192,36 @@ private:
             img_msg->step = img_msg->width * 3;  // 3 bytes per pixel for BGR
             img_msg->data.resize(img_msg->height * img_msg->step);
             
-            // TODO: Add proper MJPEG/H264 decoding here
-            // For now, just creating a blank image to avoid encoding errors
-            std::fill(img_msg->data.begin(), img_msg->data.end(), 128);  // Gray image
+            try {
+                // Decode frame based on codec type
+                cv::Mat decoded_frame;
+                if (frame->isIFrame) {
+                    RCLCPP_DEBUG(node->get_logger(), "Processing I-Frame");
+                }
+                
+                // Create a cv::Mat from the raw frame data
+                std::vector<uint8_t> frame_data(frame->data, frame->data + frame->used);
+                decoded_frame = cv::imdecode(frame_data, cv::IMREAD_COLOR);
+                
+                if (decoded_frame.empty()) {
+                    RCLCPP_ERROR(node->get_logger(), "Failed to decode video frame");
+                    return ARCONTROLLER_ERROR_STREAM;
+                }
+
+                // Convert OpenCV image to ROS message
+                auto cv_ptr = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", decoded_frame);
+                img_msg = cv_ptr.toImageMsg();
+                img_msg->header.stamp = node->now();
+                img_msg->header.frame_id = "camera_frame";
+            }
+            catch (const cv::Exception& e) {
+                RCLCPP_ERROR(node->get_logger(), "OpenCV error: %s", e.what());
+                return ARCONTROLLER_ERROR_STREAM;
+            }
+            catch (const std::exception& e) {
+                RCLCPP_ERROR(node->get_logger(), "Error processing frame: %s", e.what());
+                return ARCONTROLLER_ERROR_STREAM;
+            }
             
             node->image_pub_->publish(std::move(img_msg));
         }
