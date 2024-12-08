@@ -138,11 +138,14 @@ private:
         
         if (frame && frame->data && frame->used) {
             auto img_msg = std::make_unique<sensor_msgs::msg::Image>();
-            img_msg->height = frame->height;
-            img_msg->width = frame->width;
-            img_msg->encoding = "bgr8";  // Assuming BGR format
-            img_msg->step = frame->width * 3;
-            img_msg->data.assign(frame->data, frame->data + frame->used);
+            img_msg->header.stamp = this->now();
+            img_msg->header.frame_id = "camera_frame";
+            img_msg->height = 480;  // JumpingSumo default resolution
+            img_msg->width = 640;   // JumpingSumo default resolution
+            img_msg->encoding = "rgb8";
+            img_msg->step = img_msg->width * 3;  // 3 bytes per pixel
+            img_msg->data.resize(img_msg->height * img_msg->step);
+            std::memcpy(img_msg->data.data(), frame->data, frame->used);
             
             node->image_pub_->publish(std::move(img_msg));
         }
