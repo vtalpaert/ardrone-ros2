@@ -16,17 +16,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-#get_cmake_property(_variableNames VARIABLES)
-#list (SORT _variableNames)
-#foreach (_variableName ${_variableNames})
-#    message(STATUS "${_variableName}=${${_variableName}}")
-#endforeach()
-
-
 add_executable(jumping_sumo src/jumping_sumo.cpp)
 ament_target_dependencies(jumping_sumo rclcpp std_msgs ardrone_sdk)
-
-#target_link_libraries(jumping_sumo INTERFACE ${SDK_LIBS})
 
 install(TARGETS
   jumping_sumo
