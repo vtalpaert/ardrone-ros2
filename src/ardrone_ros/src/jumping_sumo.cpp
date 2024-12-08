@@ -20,7 +20,7 @@ extern "C" {
 class JumpingSumoNode : public rclcpp::Node {
 private:
     // ROS interfaces
-    rclcpp::Subscription<geometry_msgs::msg::twist>::SharedPtr cmd_vel_sub_;
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr image_pub_;
     
     // Drone SDK objects
