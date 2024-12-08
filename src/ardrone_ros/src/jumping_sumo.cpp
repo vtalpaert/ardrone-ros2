@@ -132,9 +132,12 @@ private:
         
         RCLCPP_INFO(node->get_logger(), "Video codec configuration received:");
         RCLCPP_INFO(node->get_logger(), "  Type: %d", codec.type);
-        RCLCPP_INFO(node->get_logger(), "  Width: %d", codec.width);
-        RCLCPP_INFO(node->get_logger(), "  Height: %d", codec.height);
-        RCLCPP_INFO(node->get_logger(), "  Frame rate: %d", codec.framerate);
+        
+        if (codec.type == ARCONTROLLER_STREAM_CODEC_TYPE_H264) {
+            RCLCPP_INFO(node->get_logger(), "  SPS size: %d", codec.parameters.h264parameters.spsSize);
+            RCLCPP_INFO(node->get_logger(), "  PPS size: %d", codec.parameters.h264parameters.ppsSize);
+            RCLCPP_INFO(node->get_logger(), "  Is MP4 compliant: %d", codec.parameters.h264parameters.isMP4Compliant);
+        }
         
         return ARCONTROLLER_OK;
     }
