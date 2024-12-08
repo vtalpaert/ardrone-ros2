@@ -111,7 +111,7 @@ private:
 
     // Callback when device state changes
     static void stateChanged(eARCONTROLLER_DEVICE_STATE newState, 
-                           eARCONTROLLER_ERROR error, void* customData) {
+                           eARCONTROLLER_ERROR /*error*/, void* customData) {
         JumpingSumoNode* node = static_cast<JumpingSumoNode*>(customData);
         switch (newState) {
             case ARCONTROLLER_DEVICE_STATE_RUNNING:
@@ -127,7 +127,7 @@ private:
 
     // Callback for video stream configuration
     static eARCONTROLLER_ERROR decoderConfigCallback(
-        ARCONTROLLER_Stream_Codec_t codec, void *customData) {
+        ARCONTROLLER_Stream_Codec_t /*codec*/, void * /*customData*/) {
         return ARCONTROLLER_OK;
     }
 
@@ -138,7 +138,7 @@ private:
         
         if (frame && frame->data && frame->used) {
             auto img_msg = std::make_unique<sensor_msgs::msg::Image>();
-            img_msg->header.stamp = this->now();
+            img_msg->header.stamp = node->now();
             img_msg->header.frame_id = "camera_frame";
             img_msg->height = 480;  // JumpingSumo default resolution
             img_msg->width = 640;   // JumpingSumo default resolution
