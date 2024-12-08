@@ -127,7 +127,15 @@ private:
 
     // Callback for video stream configuration
     static eARCONTROLLER_ERROR decoderConfigCallback(
-        ARCONTROLLER_Stream_Codec_t /*codec*/, void * /*customData*/) {
+        ARCONTROLLER_Stream_Codec_t codec, void *customData) {
+        JumpingSumoNode* node = static_cast<JumpingSumoNode*>(customData);
+        
+        RCLCPP_INFO(node->get_logger(), "Video codec configuration received:");
+        RCLCPP_INFO(node->get_logger(), "  Type: %d", codec.type);
+        RCLCPP_INFO(node->get_logger(), "  Width: %d", codec.width);
+        RCLCPP_INFO(node->get_logger(), "  Height: %d", codec.height);
+        RCLCPP_INFO(node->get_logger(), "  Frame rate: %d", codec.framerate);
+        
         return ARCONTROLLER_OK;
     }
 
@@ -137,14 +145,26 @@ private:
         JumpingSumoNode* node = static_cast<JumpingSumoNode*>(customData);
         
         if (frame && frame->data && frame->used) {
+            static int frame_count = 0;
+            if (frame_count++ % 30 == 0) { // Log every 30 frames
+                RCLCPP_DEBUG(node->get_logger(), 
+                    "Received frame: size=%d isIFrame=%d",
+                    frame->used, frame->isIFrame);
+            }
+
+            // The frame data is in MJPEG format, we need to decode it
             auto img_msg = std::make_unique<sensor_msgs::msg::Image>();
             img_msg->header.stamp = node->now();
             img_msg->header.frame_id = "camera_frame";
-            img_msg->height = 480;  // JumpingSumo default resolution
-            img_msg->width = 640;   // JumpingSumo default resolution
-            img_msg->encoding = "rgb8";
-            img_msg->step = img_msg->width * 3;  // 3 bytes per pixel
-            img_msg->data.resize(img_msg->height * img_msg->step);
+            
+            // Use actual frame dimensions from codec config
+            img_msg->height = 480;  // Should match codec.height
+            img_msg->width = 640;   // Should match codec.width
+            img_msg->encoding = "jpeg";  // Raw MJPEG data
+            img_msg->step = frame->used;
+            img_msg->data.resize(frame->used);
+            
+            // Copy the raw MJPEG data
             std::memcpy(img_msg->data.data(), frame->data, frame->used);
             
             node->image_pub_->publish(std::move(img_msg));
