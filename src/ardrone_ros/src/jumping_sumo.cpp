@@ -2,10 +2,12 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <cinttypes> // for PRIu64, PRId64
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/msg/battery_state.hpp"
 #include <cv_bridge/cv_bridge.h>
 #include <opencv4/opencv2/opencv.hpp>
 
@@ -26,6 +28,7 @@ private:
     // ROS interfaces
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr image_pub_;
+    rclcpp::Publisher<sensor_msgs::msg::BatteryState>::SharedPtr battery_pub_;
 
     // Drone SDK objects
     ARDISCOVERY_Device_t *device_;
@@ -77,6 +80,14 @@ private:
         if (error_ != ARCONTROLLER_OK)
             return false;
 
+        // Register for sensor state changes
+        error_ = ARCONTROLLER_Device_AddCommandReceivedCallback(
+            deviceController_,
+            commandReceivedCallback,
+            this);
+        if (error_ != ARCONTROLLER_OK)
+            return false;
+
         // Start the device controller
         error_ = ARCONTROLLER_Device_Start(deviceController_);
         if (error_ != ARCONTROLLER_OK)
@@ -122,6 +133,234 @@ private:
             deviceController_->jumpingSumo, static_cast<int8_t>(speed));
         error_ = deviceController_->jumpingSumo->setPilotingPCMDTurn(
             deviceController_->jumpingSumo, static_cast<int8_t>(turn));
+    }
+
+    // Callback for command reception
+    static void commandReceivedCallback(eARCONTROLLER_DICTIONARY_KEY commandKey,
+                                        ARCONTROLLER_DICTIONARY_ELEMENT_t *elementDictionary,
+                                        void *customData)
+    {
+        JumpingSumoNode *node = static_cast<JumpingSumoNode *>(customData);
+
+        // Debug: Print command key
+        RCLCPP_DEBUG(node->get_logger(), "Received command key: %d", commandKey);
+
+        // Get the command elements
+        ARCONTROLLER_DICTIONARY_ELEMENT_t *element = NULL;
+        HASH_FIND_STR(elementDictionary, ARCONTROLLER_DICTIONARY_SINGLE_KEY, element);
+        if (element == NULL)
+        {
+            return;
+        }
+
+        // Process command based on key
+        switch (commandKey)
+        {
+        // Battery state updates
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED_PERCENT, arg);
+            if (arg != NULL)
+            {
+                uint8_t batteryPercentage = arg->value.U8;
+                RCLCPP_INFO(node->get_logger(), "Battery: %d%%", batteryPercentage);
+
+                // Create battery message
+                auto battery_msg = std::make_unique<sensor_msgs::msg::BatteryState>();
+                battery_msg->header.stamp = node->now();
+                battery_msg->header.frame_id = "battery";
+
+                // Set battery percentage (convert from 0-100 to 0.0-1.0)
+                battery_msg->percentage = static_cast<float>(batteryPercentage) / 100.0f;
+
+                // Set other fields with reasonable defaults
+                battery_msg->voltage = std::numeric_limits<float>::quiet_NaN();         // Unknown
+                battery_msg->current = std::numeric_limits<float>::quiet_NaN();         // Unknown
+                battery_msg->charge = std::numeric_limits<float>::quiet_NaN();          // Unknown
+                battery_msg->capacity = std::numeric_limits<float>::quiet_NaN();        // Unknown
+                battery_msg->design_capacity = std::numeric_limits<float>::quiet_NaN(); // Unknown
+                battery_msg->power_supply_status = sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_DISCHARGING;
+                battery_msg->power_supply_health = sensor_msgs::msg::BatteryState::POWER_SUPPLY_HEALTH_UNKNOWN;
+                battery_msg->power_supply_technology = sensor_msgs::msg::BatteryState::POWER_SUPPLY_TECHNOLOGY_LIPO;
+                battery_msg->present = true;
+
+                // Publish battery state
+                node->battery_pub_->publish(std::move(battery_msg));
+            }
+            break;
+        }
+
+        // Network quality information
+        case ARCONTROLLER_DICTIONARY_KEY_JUMPINGSUMO_NETWORKSTATE_LINKQUALITYCHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_JUMPINGSUMO_NETWORKSTATE_LINKQUALITYCHANGED_QUALITY, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_U8)
+            {
+                uint8_t linkQuality = arg->value.U8;
+                RCLCPP_INFO(node->get_logger(), "Network link quality: %d/5", linkQuality);
+            }
+            break;
+        }
+
+        // Date changed
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_CURRENTDATECHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_CURRENTDATECHANGED_DATE, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                RCLCPP_INFO(node->get_logger(), "Date changed: %s", arg->value.String);
+            }
+            break;
+        }
+
+        // Time changed
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_CURRENTTIMECHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_CURRENTTIMECHANGED_TIME, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                RCLCPP_INFO(node->get_logger(), "Time changed: %s", arg->value.String);
+            }
+            break;
+        }
+
+        // Product name changed
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTNAMECHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTNAMECHANGED_NAME, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                RCLCPP_INFO(node->get_logger(), "Product name: %s", arg->value.String);
+            }
+            break;
+        }
+
+        // Product serial high changed
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALHIGHCHANGED_HIGH, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                RCLCPP_INFO(node->get_logger(), "Product serial high: %s", arg->value.String);
+            }
+            break;
+        }
+
+        // Product serial low changed
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTSERIALLOWCHANGED_LOW, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                RCLCPP_INFO(node->get_logger(), "Product serial low: %s", arg->value.String);
+            }
+            break;
+        }
+
+        // Product version changed
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            std::string software, hardware;
+
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_SOFTWARE, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                software = arg->value.String;
+            }
+
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_PRODUCTVERSIONCHANGED_HARDWARE, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                hardware = arg->value.String;
+            }
+
+            RCLCPP_INFO(node->get_logger(), "Product version - SW: %s, HW: %s",
+                        software.c_str(), hardware.c_str());
+            break;
+        }
+
+        // Country changed
+        case ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_COUNTRYCHANGED:
+        {
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            HASH_FIND_STR(element->arguments, ARCONTROLLER_DICTIONARY_KEY_COMMON_SETTINGSSTATE_COUNTRYCHANGED_CODE, arg);
+            if (arg != NULL && arg->valueType == ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING)
+            {
+                RCLCPP_INFO(node->get_logger(), "Country code: %s", arg->value.String);
+            }
+            break;
+        }
+
+        // For all other commands, print the arguments for debugging
+        default:
+        {
+            RCLCPP_DEBUG(node->get_logger(), "Command key: %d - Examining arguments:", commandKey);
+
+            // Iterate through all arguments in this command
+            ARCONTROLLER_DICTIONARY_ARG_t *arg = NULL;
+            ARCONTROLLER_DICTIONARY_ARG_t *argTmp = NULL;
+
+            // Iterate through all arguments
+            HASH_ITER(hh, element->arguments, arg, argTmp)
+            {
+                if (arg != NULL)
+                {
+                    // Print the argument key (the key is the name used in the hash table)
+                    RCLCPP_DEBUG(node->get_logger(), "  Arg key: %s", (const char *)arg->hh.key);
+
+                    // Print the value based on its type
+                    switch (arg->valueType)
+                    {
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_U8:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: U8, Value: %d", arg->value.U8);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_I8:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: I8, Value: %d", arg->value.I8);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_U16:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: U16, Value: %d", arg->value.U16);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_I16:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: I16, Value: %d", arg->value.I16);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_U32:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: U32, Value: %u", arg->value.U32);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_I32:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: I32, Value: %d", arg->value.I32);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_U64:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: U64, Value: %lu", (unsigned long)arg->value.U64);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_I64:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: I64, Value: %ld", (long)arg->value.I64);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_FLOAT:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: Float, Value: %f", arg->value.Float);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_DOUBLE:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: Double, Value: %f", arg->value.Double);
+                        break;
+                    case ARCONTROLLER_DICTIONARY_VALUE_TYPE_STRING:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: String, Value: %s", arg->value.String);
+                        break;
+                    default:
+                        RCLCPP_DEBUG(node->get_logger(), "    Type: Unknown (%d)", arg->valueType);
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+        }
     }
 
     // Callback when device state changes
@@ -194,14 +433,6 @@ private:
 
         if (frame && frame->data && frame->used)
         {
-            static int frame_count = 0;
-            if (frame_count++ % 30 == 0)
-            { // Log every 30 frames
-                RCLCPP_DEBUG(node->get_logger(),
-                             "Received frame %d: size=%d isIFrame=%d",
-                             frame_count, frame->used, frame->isIFrame);
-            }
-
             // Create image message
             auto img_msg = std::make_unique<sensor_msgs::msg::Image>();
             img_msg->header.stamp = node->now();
@@ -218,10 +449,6 @@ private:
             {
                 // Decode frame based on codec type
                 cv::Mat decoded_frame;
-                if (frame->isIFrame)
-                {
-                    RCLCPP_DEBUG(node->get_logger(), "Processing I-Frame");
-                }
 
                 // Create a cv::Mat from the raw frame data
                 std::vector<uint8_t> frame_data(frame->data, frame->data + frame->used);
@@ -265,6 +492,9 @@ public:
 
         image_pub_ = create_publisher<sensor_msgs::msg::Image>(
             "jumpingsumo/image_raw", 10);
+
+        battery_pub_ = create_publisher<sensor_msgs::msg::BatteryState>(
+            "jumpingsumo/battery", 10);
 
         // Initialize drone connection
         if (!initDrone())
