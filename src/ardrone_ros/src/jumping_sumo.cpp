@@ -8,7 +8,12 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/image.hpp"
 #include "sensor_msgs/msg/battery_state.hpp"
-#include <cv_bridge/cv_bridge.h>
+#include "rclcpp/version.h"
+#if RCLCPP_VERSION_GTE(17, 0, 0)
+        #include <cv_bridge/cv_bridge.hpp>
+#else
+        #include <cv_bridge/cv_bridge.h>
+#endif
 #include <opencv4/opencv2/opencv.hpp>
 
 extern "C"
