@@ -1,0 +1,136 @@
+victor@cutie2:~/workspace/ardrone_ros$ ros2 run ardrone_ros jumping_sumo --ros-args --log-level jumping_sumo:=debug
+[INF] ARCONTROLLER_Network | 21:28:25:750 | ARCONTROLLER_Network_GetAvailableSocketPort:128 - d2c_port port: 43210
+[INF] ARCONTROLLER_Stream2 | 21:28:25:750 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port stream: 55004
+[INF] ARCONTROLLER_Stream2 | 21:28:25:750 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port control: 55005
+[DEBUG] [1744140505.949902054] [jumping_sumo]: Received command key: 123
+[INFO] [1744140505.950040277] [jumping_sumo]: Date changed: 2025-04-08
+[DEBUG] [1744140505.995622575] [jumping_sumo]: Received command key: 124
+[INFO] [1744140505.995679383] [jumping_sumo]: Time changed: T212825+0000
+[DEBUG] [1744140506.172722577] [jumping_sumo]: Received command key: 113
+[INFO] [1744140506.172785456] [jumping_sumo]: Product name: JumpingSumo-PI040317AB4I080388
+[DEBUG] [1744140506.189952408] [jumping_sumo]: Received command key: 115
+[INFO] [1744140506.190009086] [jumping_sumo]: Product serial high: PI040317A
+[DEBUG] [1744140506.249403005] [jumping_sumo]: Received command key: 116
+[INFO] [1744140506.249422822] [jumping_sumo]: Product serial low: B4I080388
+[DEBUG] [1744140506.256696822] [jumping_sumo]: Received command key: 114
+[INFO] [1744140506.256741226] [jumping_sumo]: Product version - SW: 1.0.80, HW: HW_ 7
+[DEBUG] [1744140506.562207812] [jumping_sumo]: Received command key: 118
+[DEBUG] [1744140506.562268387] [jumping_sumo]: Command key: 118 - Examining arguments:
+[DEBUG] [1744140506.562276242] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_common_settingsstate_autocountrychanged_automatic
+[DEBUG] [1744140506.562282634] [jumping_sumo]:     Type: U8, Value: 1
+[DEBUG] [1744140506.572210041] [jumping_sumo]: Received command key: 117
+[INFO] [1744140506.572235259] [jumping_sumo]: Country code: FR
+[DEBUG] [1744140506.811610322] [jumping_sumo]: Received command key: 203
+[DEBUG] [1744140506.811666608] [jumping_sumo]: Command key: 203 - Examining arguments:
+[DEBUG] [1744140506.811674584] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_networksettingsstate_wifiselectionchanged_type
+[DEBUG] [1744140506.811681136] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140506.811691496] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_networksettingsstate_wifiselectionchanged_band
+[DEBUG] [1744140506.811702617] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140506.811708758] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_networksettingsstate_wifiselectionchanged_channel
+[DEBUG] [1744140506.811714840] [jumping_sumo]:     Type: U8, Value: 6
+[DEBUG] [1744140506.817611394] [jumping_sumo]: Received command key: 209
+[DEBUG] [1744140506.817634448] [jumping_sumo]: Command key: 209 - Examining arguments:
+[DEBUG] [1744140506.817639708] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_audiosettingsstate_mastervolumechanged_volume
+[DEBUG] [1744140506.817644958] [jumping_sumo]:     Type: U8, Value: 0
+[DEBUG] [1744140506.910268633] [jumping_sumo]: Received command key: 210
+[DEBUG] [1744140506.910291687] [jumping_sumo]: Command key: 210 - Examining arguments:
+[DEBUG] [1744140506.910300043] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_audiosettingsstate_themechanged_theme
+[DEBUG] [1744140506.910308539] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140506.915563164] [jumping_sumo]: Received command key: 216
+[DEBUG] [1744140506.915588342] [jumping_sumo]: Command key: 216 - Examining arguments:
+[DEBUG] [1744140506.915597069] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_speedsettingsstate_outdoorchanged_outdoor
+[DEBUG] [1744140506.915604152] [jumping_sumo]:     Type: U8, Value: 0
+[DEBUG] [1744140507.082246181] [jumping_sumo]: Received command key: 111
+[DEBUG] [1744140507.082264666] [jumping_sumo]: Command key: 111 - Examining arguments:
+[DEBUG] [1744140507.485638648] [jumping_sumo]: Received command key: 120
+[INFO] [1744140507.485696027] [jumping_sumo]: Battery: 58%
+[DEBUG] [1744140507.893360675] [jumping_sumo]: Received command key: 120
+[INFO] [1744140507.893414657] [jumping_sumo]: Battery: 58%
+[DEBUG] [1744140508.201850800] [jumping_sumo]: Received command key: 191
+[DEBUG] [1744140508.201905614] [jumping_sumo]: Command key: 191 - Examining arguments:
+[DEBUG] [1744140508.201914271] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_alertstatechanged_state
+[DEBUG] [1744140508.201921534] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140508.456995560] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140508.457050484] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140508.457058299] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140508.457065042] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140508.501453213] [jumping_sumo]: Received command key: 193
+[DEBUG] [1744140508.501475415] [jumping_sumo]: Command key: 193 - Examining arguments:
+[DEBUG] [1744140508.501483711] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_animationsstate_jumploadchanged_state
+[DEBUG] [1744140508.501490835] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140508.515486445] [jumping_sumo]: Received command key: 119
+[DEBUG] [1744140508.515506443] [jumping_sumo]: Command key: 119 - Examining arguments:
+[INFO] [1744140508.515546930] [jumping_sumo]: JumpingSumo node initialized successfully
+[DEBUG] [1744140508.711967261] [jumping_sumo]: Received command key: 217
+[DEBUG] [1744140508.712019911] [jumping_sumo]: Command key: 217 - Examining arguments:
+[DEBUG] [1744140508.712028878] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_mediastreamingstate_videoenablechanged_enabled
+[DEBUG] [1744140508.712035851] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140508.770168156] [jumping_sumo]: Received command key: 121
+[DEBUG] [1744140508.774866656] [jumping_sumo]: Received command key: 122
+[DEBUG] [1744140508.794857689] [jumping_sumo]: Received command key: 217
+[DEBUG] [1744140508.794881083] [jumping_sumo]: Command key: 217 - Examining arguments:
+[DEBUG] [1744140508.794894909] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_mediastreamingstate_videoenablechanged_enabled
+[DEBUG] [1744140508.794902895] [jumping_sumo]:     Type: Unknown (11)
+[INF] ARSTREAM_Reader | 21:28:28:795 | ARSTREAM_Reader_RunDataThread:538 - Missed -65514 frames !
+[INFO] [1744140508.795169551] [jumping_sumo]: Video codec configuration received:
+[INFO] [1744140508.795202313] [jumping_sumo]:   Codec Type: MJPEG (enum: 2)
+[DEBUG] [1744140508.836411648] [jumping_sumo]: Received command key: 217
+[DEBUG] [1744140508.836434321] [jumping_sumo]: Command key: 217 - Examining arguments:
+[DEBUG] [1744140508.836442477] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_mediastreamingstate_videoenablechanged_enabled
+[DEBUG] [1744140508.836449931] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140509.418661704] [jumping_sumo]: Received command key: 208
+[INFO] [1744140509.418699987] [jumping_sumo]: Network link quality: 5/5
+[INF] ARSTREAM_Reader | 21:28:29:429 | ARSTREAM_Reader_RunDataThread:538 - Missed 1 frames !
+[INF] ARSTREAM_Reader | 21:28:29:754 | ARSTREAM_Reader_RunDataThread:538 - Missed 1 frames !
+[INF] ARSTREAM_Reader | 21:28:32:087 | ARSTREAM_Reader_RunDataThread:538 - Missed 1 frames !
+[INF] ARSTREAM_Reader | 21:28:32:214 | ARSTREAM_Reader_RunDataThread:538 - Missed 1 frames !
+[INF] ARSTREAM_Reader | 21:28:33:951 | ARSTREAM_Reader_RunDataThread:538 - Missed 1 frames !
+[DEBUG] [1744140530.244920187] [jumping_sumo]: Received command key: 120
+[INFO] [1744140530.244961244] [jumping_sumo]: Battery: 57%
+[INF] ARSTREAM_Reader | 21:28:59:794 | ARSTREAM_Reader_RunDataThread:538 - Missed 1 frames !
+[DEBUG] [1744140555.504033088] [jumping_sumo]: Received command key: 208
+[INFO] [1744140555.504067183] [jumping_sumo]: Network link quality: 4/5
+[DEBUG] [1744140556.419843407] [jumping_sumo]: Received command key: 120
+[INFO] [1744140556.419881039] [jumping_sumo]: Battery: 56%
+[DEBUG] [1744140559.053212742] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140559.053256425] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140559.053265332] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140559.053274900] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140559.530163517] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140559.530195758] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140559.530201920] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140559.530206819] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140561.315039647] [jumping_sumo]: Received command key: 208
+[INFO] [1744140561.315079332] [jumping_sumo]: Network link quality: 5/5
+[DEBUG] [1744140567.842547424] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140567.842587260] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140567.842596157] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140567.842632877] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140568.183802940] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140568.183841503] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140568.183850290] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140568.183857794] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140581.929713153] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140581.929758930] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140581.929767496] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140581.929774920] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140582.512277514] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140582.512318883] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140582.512327439] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140582.512341776] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140589.025016341] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140589.025061777] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140589.025072187] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140589.025084290] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140589.564932887] [jumping_sumo]: Received command key: 208
+[INFO] [1744140589.564973113] [jumping_sumo]: Network link quality: 4/5
+[DEBUG] [1744140589.822102336] [jumping_sumo]: Received command key: 120
+[INFO] [1744140589.822141140] [jumping_sumo]: Battery: 55%
+[INF] ARSTREAM_Reader | 21:29:49:870 | ARSTREAM_Reader_RunDataThread:538 - Missed 1 frames !
+[DEBUG] [1744140589.969047957] [jumping_sumo]: Received command key: 190
+[DEBUG] [1744140589.969067674] [jumping_sumo]: Command key: 190 - Examining arguments:
+[DEBUG] [1744140589.969074718] [jumping_sumo]:   Arg key: arcontroller_dictionary_key_jumpingsumo_pilotingstate_posturechanged_state
+[DEBUG] [1744140589.969082212] [jumping_sumo]:     Type: Unknown (11)
+[DEBUG] [1744140593.239788020] [jumping_sumo]: Received command key: 208
+[INFO] [1744140593.239822004] [jumping_sumo]: Network link quality: 5/5
+[INFO] [1744140600.588721650] [rclcpp]: signal_handler(signum=2)

@@ -14,17 +14,13 @@ endif()
 find_package(ardrone_sdk REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(cv_bridge REQUIRED)
 
 add_executable(jumping_sumo src/jumping_sumo.cpp)
 ament_target_dependencies(jumping_sumo 
-  rclcpp 
-  std_msgs 
-  geometry_msgs
+  rclcpp
   sensor_msgs
   ardrone_sdk
   OpenCV
