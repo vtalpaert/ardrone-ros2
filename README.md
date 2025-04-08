@@ -1,17 +1,8 @@
 # ARDRONE ROS2
 
-ROS2 node for JumpingSumo (and samples including Bebop)
+Exports ARDRONE ARSDK3 from Parrot as a ROS2 package. A node for the Jumping Sumo is provided, but more nodes are welcome in PR.
 
-## Features
-
-Control the JumpingSumo drone via ROS2 topics
-
-- Subscribe to geometry_msgs/Twist on `jumpingsumo/cmd_vel` for motion control
-- Publish sensor_msgs/Image on `jumpingsumo/image_raw` for video feed
-- Publish sensor_msgs/BatteryState on `jumpingsumo/battery` for battery status
-- WiFi connection handling
-
-## Build
+## Build the library
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -25,7 +16,21 @@ The packages are built in steps
 - In `ardrone_sdk`, the ARSDK library needs to be already downloaded so that CMake `GLOB` will correctly list and export all the library `.so` files
 - Finally `ardrone_ros` can `<depend>ardrone_sdk</depend>` for importing headers and linking
 
-## Usage
+## Jumping Sumo
+
+![Jumping Sumo](docs/parrot-minidrone-jumping-sumo.jpg)
+ROS2 node for Jumping Sumo (and samples including Bebop)
+
+### Features
+
+Control the JumpingSumo drone via ROS2 topics
+
+- Subscribe to geometry_msgs/Twist on `jumpingsumo/cmd_vel` for motion control
+- Publish sensor_msgs/Image on `jumpingsumo/image_raw` for video feed
+- Publish sensor_msgs/BatteryState on `jumpingsumo/battery` for battery status
+- WiFi connection handling
+
+### Usage
 
 1. Connect to JumpingSumo's WiFi network
 2. Launch the ROS2 node:
@@ -55,9 +60,7 @@ source install/setup.bash
 JumpingSumoSample
 ```
 
-### Debug Logging
-
-To enable debug logging for sensor detection and detailed command information:
+To enable debug logging for detailed command information:
 
 ```bash
 ros2 run ardrone_ros jumping_sumo --ros-args --log-level jumping_sumo:=debug
