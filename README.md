@@ -7,14 +7,14 @@ Exports ARDRONE ARSDK3 from Parrot as a ROS2 package. A node for the Jumping Sum
 ```bash
 source /opt/ros/humble/setup.bash
 rosdep install -i --from-path src --rosdistro humble -y --ignore-src
-colcon build --packages-up-to ardrone_ros --event-handlers console_direct+
+colcon build --packages-up-to ardrone_sumo --event-handlers console_direct+
 ```
 
 The packages are built in steps
 
 - The package `arsdk3` relies on CMake `ExternalProject_Add`. This command only downloads the compiled library from [ardrone-sdk-native](https://github.com/vtalpaert/ardrone-sdk-native) during the cmake install phase
 - In `ardrone_sdk`, the ARSDK library needs to be already downloaded so that CMake `GLOB` will correctly list and export all the library `.so` files
-- Finally `ardrone_ros` can `<depend>ardrone_sdk</depend>` for importing headers and linking
+- Finally `ardrone_sumo` can `<depend>ardrone_sdk</depend>` for importing headers and linking
 
 ## Jumping Sumo
 
@@ -36,7 +36,7 @@ Control the JumpingSumo drone via ROS2 topics
 2. Launch the ROS2 node:
 
 ```bash
-ros2 run ardrone_ros jumping_sumo
+ros2 run ardrone_sumo jumping_sumo
 ```
 
 To control the drone, use:
@@ -63,7 +63,7 @@ JumpingSumoSample
 To enable debug logging for detailed command information:
 
 ```bash
-ros2 run ardrone_ros jumping_sumo --ros-args --log-level jumping_sumo:=debug
+ros2 run ardrone_sumo jumping_sumo --ros-args --log-level jumping_sumo:=debug
 ```
 
 This will show all DEBUG level messages, which include detailed command key information

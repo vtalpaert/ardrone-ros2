@@ -1,4 +1,4 @@
-victor@cutie2:~/workspace/ardrone_ros$ ros2 run ardrone_ros jumping_sumo --ros-args --log-level jumping_sumo:=debug
+victor@cutie2:~/workspace/ardrone_ros$ ros2 run ardrone_sumo jumping_sumo --ros-args --log-level jumping_sumo:=debug
 [INF] ARCONTROLLER_Network | 21:28:25:750 | ARCONTROLLER_Network_GetAvailableSocketPort:128 - d2c_port port: 43210
 [INF] ARCONTROLLER_Stream2 | 21:28:25:750 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port stream: 55004
 [INF] ARCONTROLLER_Stream2 | 21:28:25:750 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port control: 55005
