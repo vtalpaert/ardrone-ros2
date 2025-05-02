@@ -8,6 +8,7 @@ find_package(ament_cmake REQUIRED)
 
 # Create interface target to existing files already install in ardrone_sdk folder by arsdk package
 add_library(${LIBRARY_NAME} INTERFACE)
+# The library version is dependent on the actual downloaded library in arsdk3
 set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION 3.14.0)
 
 # Add the include dir
