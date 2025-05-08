@@ -19,7 +19,7 @@ find_package(OpenCV REQUIRED)
 find_package(cv_bridge REQUIRED)
 
 add_executable(jumping_sumo src/jumping_sumo.cpp)
-ament_target_dependencies(jumping_sumo 
+target_link_libraries(jumping_sumo PUBLIC
   rclcpp
   sensor_msgs
   ardrone_sdk
