@@ -2,7 +2,7 @@
 
 Exports ARDRONE ARSDK3 from Parrot as a ROS2 package. A node for the Jumping Sumo is provided, but more nodes are welcome in PR.
 
-## Build the library
+## ARDRONE SDK
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -10,11 +10,17 @@ rosdep install -i --from-path src --rosdistro humble -y --ignore-src
 colcon build --packages-up-to ardrone_sumo --event-handlers console_direct+
 ```
 
-The packages are built in steps
+The package `ardrone_sdk` relies on CMake `ExternalProject_Add`. This command downloads the compiled library from [ardrone-sdk-native](https://github.com/vtalpaert/ardrone-sdk-native) during the cmake install phase.
 
-- The package `arsdk3` relies on CMake `ExternalProject_Add`. This command only downloads the compiled library from [ardrone-sdk-native](https://github.com/vtalpaert/ardrone-sdk-native) during the cmake install phase
-- In `ardrone_sdk`, the ARSDK library needs to be already downloaded so that CMake `GLOB` will correctly list and export all the library `.so` files
-- Finally `ardrone_sumo` can `<depend>ardrone_sdk</depend>` for importing headers and linking
+`ardrone_sdk` exports headers and libs for easy integration, as illustrated in `ardrone_sumo`
+
+```cmake
+find_package(ardrone_sdk REQUIRED)
+add_executable(jumping_sumo src/jumping_sumo.cpp)
+ament_target_dependencies(jumping_sumo 
+  ardrone_sdk
+)
+```
 
 ## Jumping Sumo
 
