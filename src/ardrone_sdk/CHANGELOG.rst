@@ -2,8 +2,8 @@
 Changelog for package ardrone_sdk
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.0 (2025-05-18)
+------------------
 * Compile ardrone_sdk without using the intermediate step of arsdk3 package
 
 1.0.0 (2025-05-02)
