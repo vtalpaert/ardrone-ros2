@@ -2,8 +2,8 @@
 Changelog for package ardrone_sumo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.0 (2025-05-18)
+------------------
 * [kilted] Update deprecated call to ament_target_dependencies (`#1 <https://github.com/vtalpaert/ardrone-ros2/issues/1>`_)
 * remove BUILD_TESTING CMake condition, since there are no tests
 * Contributors: David V. Lu!!, Victor Talpaert
