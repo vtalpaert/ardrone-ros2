@@ -6,12 +6,12 @@ project(ardrone_sdk)
 message(STATUS Detected architecture ${CMAKE_SYSTEM_PROCESSOR})
 if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL x86_64)
 	set(SDK_URL https://github.com/vtalpaert/ardrone-sdk-native/releases/download/arsdk-native-samples-master/arsdk-native-samples-x64-master.tar.gz)
-	set(SDK_MD5 d032dc12bd1d989b450354086d9b37ae)
+	set(SDK_MD5 399ac679cb85ba7ba7e2d8dfdee1320a)
 else()
 	# Let's assume arm64 to match
 	# arm aarch64_be aarch64 armv8b armv8l
 	set(SDK_URL https://github.com/vtalpaert/ardrone-sdk-native/releases/download/arsdk-native-samples-master/arsdk-native-samples-arm64-master.tar.gz)
-	set(SDK_MD5 a5e6887bcc9fb81cba0d0a0b01870e52)
+	set(SDK_MD5 9951550bfb4d91a2ac66a77bb60e507b)
 endif()
 
 include(ExternalProject)
