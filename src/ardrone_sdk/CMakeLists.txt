@@ -30,10 +30,15 @@ ExternalProject_Add(
 set(SDK_SRC ${CMAKE_CURRENT_BINARY_DIR}/arsdk3/src/arsdk3/usr)
 set(SDK_LIC ${CMAKE_CURRENT_BINARY_DIR}/arsdk3/src/arsdk3/parrot_license.md)
 install(
-	DIRECTORY ${SDK_SRC}/bin ${SDK_SRC}/include ${SDK_SRC}/lib ${SDK_SRC}/share
+	DIRECTORY ${SDK_SRC}/bin ${SDK_SRC}/include ${SDK_SRC}/share
 	DESTINATION .
 	USE_SOURCE_PERMISSIONS
 	MESSAGE_NEVER
+)
+install(
+	DIRECTORY ${SDK_SRC}/lib/
+	DESTINATION ./lib/${PROJECT_NAME}
+	FILES_MATCHING PATTERN "*.so*"
 )
 install(FILES ${SDK_LIC} DESTINATION .)
 
@@ -61,7 +66,7 @@ target_include_directories(
 # The libraries will be linked when using find_package(ardrone_sdk REQUIRED)
 # thanks to the install/ardrone_sdk/share/ardrone_sdk/cmake/export_ardrone_sdkExport.cmake
 # file
-set(INTERFACE_LINK_LIBRARIES "$\{_IMPORT_PREFIX\}/lib/libarcommands.so;$\{_IMPORT_PREFIX\}/lib/libarcontroller.so;$\{_IMPORT_PREFIX\}/lib/libardatatransfer.so;$\{_IMPORT_PREFIX\}/lib/libardiscovery.so;$\{_IMPORT_PREFIX\}/lib/libarmavlink.so;$\{_IMPORT_PREFIX\}/lib/libarmedia.so;$\{_IMPORT_PREFIX\}/lib/libarnetwork.so;$\{_IMPORT_PREFIX\}/lib/libarnetworkal.so;$\{_IMPORT_PREFIX\}/lib/libarsal.so;$\{_IMPORT_PREFIX\}/lib/libarstream.so;$\{_IMPORT_PREFIX\}/lib/libarstream2.so;$\{_IMPORT_PREFIX\}/lib/libarupdater.so;$\{_IMPORT_PREFIX\}/lib/libarutils.so;$\{_IMPORT_PREFIX\}/lib/libcrypto.so;$\{_IMPORT_PREFIX\}/lib/libcurl.so;$\{_IMPORT_PREFIX\}/lib/libfutils.so;$\{_IMPORT_PREFIX\}/lib/libjson-c.so;$\{_IMPORT_PREFIX\}/lib/libjson.so;$\{_IMPORT_PREFIX\}/lib/libmux.so;$\{_IMPORT_PREFIX\}/lib/libpomp.so;$\{_IMPORT_PREFIX\}/lib/libpuf.so;$\{_IMPORT_PREFIX\}/lib/librtsp.so;$\{_IMPORT_PREFIX\}/lib/libsdp.so;$\{_IMPORT_PREFIX\}/lib/libssl.so;$\{_IMPORT_PREFIX\}/lib/libtar.so;$\{_IMPORT_PREFIX\}/lib/libtls.so;$\{_IMPORT_PREFIX\}/lib/libulog.so")
+set(INTERFACE_LINK_LIBRARIES "$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarcommands.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarcontroller.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libardatatransfer.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libardiscovery.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarmavlink.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarmedia.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarnetwork.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarnetworkal.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarsal.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarstream.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarstream2.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarupdater.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libarutils.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libcrypto.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libcurl.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libfutils.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libjson-c.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libjson.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libmux.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libpomp.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libpuf.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/librtsp.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libsdp.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libssl.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libtar.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libtls.so;$\{_IMPORT_PREFIX\}/lib/${LIBRARY_NAME}/libulog.so")
 target_link_libraries(${LIBRARY_NAME} INTERFACE ${INTERFACE_LINK_LIBRARIES})
 ament_export_targets(export_${LIBRARY_NAME} HAS_LIBRARY_TARGET)
 
