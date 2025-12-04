@@ -2,6 +2,12 @@
 Changelog for package ardrone_sdk
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Directly includes Parrot ARSDK source files instead of using tarball download
+* Update ardrone_sdk external dependencies
+* Contributors: Victor Talpaert, vtalpaert
+
 1.1.0 (2025-05-18)
 ------------------
 * Compile ardrone_sdk without using the intermediate step of arsdk3 package
