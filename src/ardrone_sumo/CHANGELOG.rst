@@ -2,8 +2,8 @@
 Changelog for package ardrone_sumo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.0 (2025-12-04)
+------------------
 * Uses ardrone_sdk version 2 with direct source files instead of tarball download
 * Contributors: Victor Talpaert
 
