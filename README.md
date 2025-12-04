@@ -2,15 +2,15 @@
 
 Exports ARDRONE ARSDK3 from Parrot as a ROS2 package. A node for the Jumping Sumo is provided, but more nodes are welcome in PR.
 
-## ARDRONE SDK
+## ARDRONE_SDK
+
+### Build the ROS SDK
 
 ```bash
 source /opt/ros/humble/setup.bash
 rosdep install -i --from-path src --rosdistro humble -y --ignore-src
-colcon build --packages-up-to ardrone_sumo --event-handlers console_direct+
+colcon build --packages-up-to ardrone_sdk --event-handlers console_direct+ --paths src/*
 ```
-
-The package `ardrone_sdk` relies on CMake `ExternalProject_Add`. This command downloads the compiled library from [ardrone-sdk-native](https://github.com/vtalpaert/ardrone-sdk-native) during the cmake install phase.
 
 `ardrone_sdk` exports headers and libs for easy integration, as illustrated in `ardrone_sumo`
 
@@ -18,14 +18,20 @@ The package `ardrone_sdk` relies on CMake `ExternalProject_Add`. This command do
 find_package(ardrone_sdk REQUIRED)
 add_executable(jumping_sumo src/jumping_sumo.cpp)
 ament_target_dependencies(jumping_sumo 
-  ardrone_sdk
+  ardrone_sdk::ardrone_sdk_lib
 )
 ```
 
-## Jumping Sumo
+### Development
+
+The [original ARSDK](https://github.com/Parrot-Developers/arsdk_manifests) build involves using `repo init`/`repo sync` to clone the source files from github. To avoid cloning in the ROS build farm, we re-commit the files in the `src/ardrone_sdk` package and preserve the Parrot license. Only a part of the original files is committed, which is controlled by `./scripts/sync_sources.sh`. Edit this script and commit the new output to add more ARSDK libraries.
+
+The Bebop Sample is not part of this release.
+
+## ARDRONE_SUMO
 
 ![Jumping Sumo](docs/parrot-minidrone-jumping-sumo.jpg)
-ROS2 node for Jumping Sumo (and samples including Bebop)
+ROS2 node for Jumping Sumo.
 
 ### Features
 

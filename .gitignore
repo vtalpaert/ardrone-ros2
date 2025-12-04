@@ -1,3 +1,6 @@
+.aider.*
+arsdk/
 build/
 install/
 log/
+venv
