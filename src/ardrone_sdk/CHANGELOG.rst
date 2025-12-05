@@ -2,6 +2,11 @@
 Changelog for package ardrone_sdk
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add libjson-c-dev rosdep just added to rosdistro
+* Contributors: Victor Talpaert
+
 2.0.0 (2025-12-04)
 ------------------
 * Directly includes Parrot ARSDK source files instead of using tarball download
