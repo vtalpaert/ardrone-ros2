@@ -2,8 +2,8 @@
 Changelog for package ardrone_sdk
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.2 (2025-12-05)
+------------------
 * change libncurses to libncurses-dev since we not build full sdk
 * Contributors: Victor Talpaert
 
