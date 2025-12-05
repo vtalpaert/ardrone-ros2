@@ -2,8 +2,8 @@
 Changelog for package ardrone_sdk
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.1 (2025-12-05)
+------------------
 * add libjson-c-dev rosdep just added to rosdistro
 * Contributors: Victor Talpaert
 
