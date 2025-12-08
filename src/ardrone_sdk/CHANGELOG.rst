@@ -2,8 +2,8 @@
 Changelog for package ardrone_sdk
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.3 (2025-12-08)
+------------------
 * fix format-security warning since ROS build farm triggers a format-security error
 * Contributors: Victor Talpaert
 
