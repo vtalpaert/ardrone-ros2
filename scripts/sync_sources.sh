@@ -96,8 +96,9 @@ function copy_ulog_sources() {
 copy_ulog_sources libulog
 
 # Copy Samples
-cp arsdk/packages/Samples/Unix/JumpingSumoSample/*.{h,c} src/ardrone_sdk/JumpingSumoSample/
-cp arsdk/packages/Samples/Unix/BebopSample/*.{h,c} src/ardrone_sdk/BebopSample/
+#cp arsdk/packages/Samples/Unix/JumpingSumoSample/*.{h,c} src/ardrone_sdk/JumpingSumoSample/
+#cp arsdk/packages/Samples/Unix/BebopSample/*.{h,c} src/ardrone_sdk/BebopSample/
+# Do not copy samples anymore since we will edit the original files to fix compilation warnings 
 
 # Final clean up
 rm src/ardrone_sdk/Sources/*.m

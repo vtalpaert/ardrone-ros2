@@ -243,7 +243,8 @@ void IHM_PrintHeader(IHM_t *ihm, char *headerStr)
     {
         move(HEADER_Y, 0);   // move to begining of line
         clrtoeol();          // clear line
-        mvprintw(HEADER_Y, HEADER_X, headerStr);
+        //mvprintw(HEADER_Y, HEADER_X, headerStr);
+        mvprintw(HEADER_Y, HEADER_X, "%s", headerStr);
     }
 }
 
@@ -253,7 +254,8 @@ void IHM_PrintInfo(IHM_t *ihm, char *infoStr)
     {
         move(INFO_Y, 0);    // move to begining of line
         clrtoeol();         // clear line
-        mvprintw(INFO_Y, INFO_X, infoStr);
+        //mvprintw(INFO_Y, INFO_X, infoStr);
+        mvprintw(INFO_Y, INFO_X, "%s", infoStr);
     }
 }
 

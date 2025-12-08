@@ -2,9 +2,14 @@
 Changelog for package ardrone_sdk
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix format-security warning since ROS build farm triggers a format-security error
+* Contributors: Victor Talpaert
+
 2.0.2 (2025-12-05)
 ------------------
-* change libncurses to libncurses-dev since we not build full sdk
+* change libncurses to libncurses-dev since we now build use sdk source files instead of compiled binaries
 * Contributors: Victor Talpaert
 
 2.0.1 (2025-12-05)
