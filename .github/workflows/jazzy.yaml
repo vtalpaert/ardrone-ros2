@@ -1,0 +1,8 @@
+name: Build Jazzy
+on: push
+jobs:
+  build-jazzy:
+    uses: ./.github/workflows/build_docker.yaml
+    with:
+      distro: jazzy
+      package: ardrone_sumo

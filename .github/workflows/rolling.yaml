@@ -1,0 +1,8 @@
+name: Build Rolling
+on: push
+jobs:
+  build-rolling:
+    uses: ./.github/workflows/build_docker.yaml
+    with:
+      distro: rolling
+      package: ardrone_sumo

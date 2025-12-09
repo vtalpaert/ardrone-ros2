@@ -1,0 +1,27 @@
+name: Build ROS2 package
+on:
+  workflow_call:
+    inputs:
+      distro:
+        required: true
+        type: string
+      package:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+        push: false
+        tags: ${{ inputs.package }}:${{ inputs.distro }}
+        build-args: ROS_DISTRO=${{ inputs.distro }}

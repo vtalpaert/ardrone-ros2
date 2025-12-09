@@ -2,6 +2,18 @@
 
 Exports ARDRONE ARSDK3 from Parrot as a ROS2 package. A node for the Jumping Sumo is provided, but more nodes are welcome in PR.
 
+## Status
+
+**Build status:**
+
+[![Humble](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/humble.yaml/badge.svg?branch=main)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/humble.yaml) [![Jazzy](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/jazzy.yaml/badge.svg)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/jazzy.yaml) [![Rolling](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/rolling.yaml/badge.svg)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/rolling.yaml)
+
+**Release status:**
+
+[![Build Status](https://build.ros2.org/buildStatus/icon?subject=Release%20Rolling&job=Rbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary/)
+
+`sudo apt install ros-${ROS_DISTRO}-ardrone-sumo`
+
 ## ARDRONE_SDK
 
 ### Build the ROS SDK
@@ -17,8 +29,8 @@ colcon build --packages-up-to ardrone_sdk --event-handlers console_direct+ --pat
 ```cmake
 find_package(ardrone_sdk REQUIRED)
 add_executable(jumping_sumo src/jumping_sumo.cpp)
-ament_target_dependencies(jumping_sumo 
-  ardrone_sdk::ardrone_sdk_lib
+target_link_libraries(jumping_sumo PUBLIC
+    ardrone_sdk::ardrone_sdk_lib
 )
 ```
 

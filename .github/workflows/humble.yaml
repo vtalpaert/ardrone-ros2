@@ -1,0 +1,8 @@
+name: Build Humble
+on: push
+jobs:
+  build-humble:
+    uses: ./.github/workflows/build_docker.yaml
+    with:
+      distro: humble
+      package: ardrone_sumo
