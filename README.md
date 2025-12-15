@@ -24,7 +24,7 @@ rosdep install -i --from-path src --rosdistro humble -y --ignore-src
 colcon build --packages-up-to ardrone_sdk --event-handlers console_direct+ --paths src/*
 ```
 
-`ardrone_sdk` exports headers and libs for easy integration, as illustrated in `ardrone_sumo`
+The `ardrone_sdk` package exports headers and libs for easy integration, as illustrated in the companion package `ardrone_sumo`
 
 ```cmake
 find_package(ardrone_sdk REQUIRED)
@@ -36,9 +36,9 @@ target_link_libraries(jumping_sumo PUBLIC
 
 ### Development
 
-The [original ARSDK](https://github.com/Parrot-Developers/arsdk_manifests) build involves using `repo init`/`repo sync` to clone the source files from github. To avoid cloning in the ROS build farm, we re-commit the files in the `src/ardrone_sdk` package and preserve the Parrot license. Only a part of the original files is committed, which is controlled by `./scripts/sync_sources.sh`. Edit this script and commit the new output to add more ARSDK libraries.
+The [original ARSDK](https://github.com/Parrot-Developers/arsdk_manifests) build involves using `repo init`/`repo sync` to clone the source files from github. To avoid cloning as part of the build process in the ROS build farm, we re-commit the files in the `src/ardrone_sdk` package and take care to preserve the Parrot license. Only a part of the original files is committed, which is controlled by `./scripts/sync_sources.sh`. Edit this script and commit the new output to add more ARSDK libraries.
 
-The Bebop Sample is not part of this release.
+The Bebop Sample is not part of this release, although a compiled version of the original library can be found in the [ardrone-sdk-native](https://github.com/vtalpaert/ardrone-sdk-native) repository. It includes both native samples.
 
 ## ARDRONE_SUMO
 
@@ -53,6 +53,8 @@ Control the JumpingSumo drone via ROS2 topics
 - Publish sensor_msgs/Image on `jumpingsumo/image_raw` for video feed
 - Publish sensor_msgs/BatteryState on `jumpingsumo/battery` for battery status
 - WiFi connection handling
+
+> The `Twist` has no unit/dimension ! Send a floating value between -1 and 1 to control for the maximum backward/forward motor values in speed and turn.
 
 ### Usage
 
@@ -91,3 +93,8 @@ ros2 run ardrone_sumo jumping_sumo --ros-args --log-level jumping_sumo:=debug
 ```
 
 This will show all DEBUG level messages, which include detailed command key information
+
+### Missing features
+
+- The Twist command has no unit/dimension (it is not in m/s but rather in motor percentage)
+- The IMU sensor is missing (Note Victor: I could not find it in the jumping_sumo messages)
