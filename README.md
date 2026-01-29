@@ -6,11 +6,13 @@ Exports ARDRONE ARSDK3 from Parrot as a ROS2 package. A node for the Jumping Sum
 
 **Build status:**
 
-[![Humble](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/humble.yaml/badge.svg?branch=main)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/humble.yaml) [![Jazzy](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/jazzy.yaml/badge.svg)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/jazzy.yaml) [![Rolling](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/rolling.yaml/badge.svg)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/rolling.yaml)
+[![Build Humble](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/humble.yaml/badge.svg?branch=main)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/humble.yaml) [![Build Jazzy](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/jazzy.yaml/badge.svg)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/jazzy.yaml) [![Build Rolling](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/rolling.yaml/badge.svg)](https://github.com/vtalpaert/ardrone-ros2/actions/workflows/rolling.yaml)
 
 **Release status:**
 
-[![Build Status](https://build.ros2.org/buildStatus/icon?subject=Release%20Rolling&job=Rbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary/)
+[![Release Humble](https://build.ros2.org/buildStatus/icon?subject=Release%20Humble&job=Hbin_uJ64__ardrone_sumo__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Hbin_uJ64__ardrone_sumo__ubuntu_jammy_amd64__binary/)
+[![Release Jazzy](https://build.ros2.org/buildStatus/icon?subject=Release%20Jazzy&job=Jbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Jbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary/)
+[![Release Rolling](https://build.ros2.org/buildStatus/icon?subject=Release%20Rolling&job=Rbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uN64__ardrone_sumo__ubuntu_noble_amd64__binary/)
 
 `sudo apt install ros-${ROS_DISTRO}-ardrone-sumo`
 
